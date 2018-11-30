@@ -147,7 +147,7 @@ car2.run();   // "Hello! Engine of Civic starting... It has 4 Cylinders."
 ```
 
 It it advised that `class`es should _never_ be extended unless it is for the sake of compatibility
-with newer JavaScript features, like in building UI components frameworks like React and Angular.
+with newer JavaScript features, like building UI components frameworks in React and Angular.
 This is due to the way inheritance works on top of vanilla JavaScript code, and could create
 a multitude of unforseen headaches down the road. Always start with the simplest solution
 and progress to more complex solutions only as-needed.
