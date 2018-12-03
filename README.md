@@ -101,7 +101,7 @@ and inheritance similar to classic programming languages like C++, Java, or PHP.
 is quite powerful! As the popular phrase goes: "With power comes great responsibility."
 It can be tempting to overuse these features.
 
-In Ruby, a parent `class` object has significantly more methods than an instance of the parent.
+In Ruby, a parent `class` has significantly more methods than an instance of the parent.
 It parent is a _special_ type of object that includes `class` methods, including `#new`and
 `#initialize` which are needed to create instances of itself. In Javascript, there are many ways
 to create objects.
@@ -115,16 +115,6 @@ create the object it does not copy the properties or behavior, it creates a _lin
 allows JavaScript objects to inherit features from one another. This is often referred to as a
 _prototype chain_. Methods and properties are not copied from one object to another in the
 prototype chain--they are accessed by _walking up_ the chain.
-
-### Strong Behavioral Subtyping
-
-When creating child `class`es, we defer to [SOLID](https://en.wikipedia.org/wiki/SOLID). SOLID is
-a set of design principles for OO programming that is intended to make software designs more
-understandable, flexible and maintainable. The 'L' in SOLID stands for is Liskov's substitution
-principle:
-
-> objects in a program should be replaceable with instances of their subtypes without altering
-the correctness of that program.
 
 Let's use `Vehicle` as a parent `class` with `Car` as a child `class` of `Vehicle` as an example:
 
@@ -161,15 +151,66 @@ While on the surface it may look like `Vehicle` and `Car` do the same thing, `cl
 _linked_ and *not* _copied_ are fundamentally a code reuse mechanism--a way for objects to share
 code. `Car` looks to the parent as a reference, and does not have all `Vehicle`'s properties and
 behaviors without it. The way that the code is shared matters. When you attempt to access a
-property or method of an object, JavaScript will continue searching through the object/`class`
-and its `prototype` until the end of the `prototype` chain is reached. It can create performance
-and code maintenance issues when misapplied.
+property or method of an object, JavaScript will searches through the object/`class` and its
+`prototype` until the end of the `prototype` chain is reached. It can create performance and
+code maintenance issues when misapplied.
+
+### Strong Behavioral Subtyping
+
+When creating child `class`es, we defer to [SOLID](https://en.wikipedia.org/wiki/SOLID). SOLID is
+a set of design principles for OO programming that is intended to make software designs more
+understandable, flexible and maintainable. The 'L' in SOLID stands for is Liskov's substitution
+principle:
+
+> objects in a program should be replaceable with instances of their subtypes without altering
+the correctness of that program.
 
 To adhere to good design, we try to maintain _[(strong) behavioral subtyping](https://en.wikipedia.org/wiki/Liskov_substitution_principle)_
 in [programming language theory](https://en.wikipedia.org/wiki/Programming_language_theory).
 A child class instance should be able to replace a parent and behave effectively the same way.
-If we refer back to our `Vehicle` and `Car` example, if we have an instance of `Vehicle`, we
-should be able to swap in an instance of `Car` without problem. This is the purpose of (strong)
+
+#### Bad Example:
+
+```js
+class Bird {
+  constructor(name) {
+    this.name = name;
+  }
+    fly(){
+      return `${this.name} flew away`
+    }
+}
+
+class Eagle extends Bird {} // Eagle can fly because it is a bird.
+class Duck extends Bird {} //  Duck can fly because it is also bird.
+class Penguin extends Bird {} // Penguin is a bird, But it can't fly.
+```
+
+Penguin class is a subtype of class Bird, but it can't use the fly method. That means this
+would be breaking the LSP principle.
+
+#### Good Example:
+
+```js
+class Bird {}
+
+class FlyingBird extends Bird{
+  constructor(name) {
+    this.name = name;
+  }
+    fly(){
+      return `${this.name} flew away`
+    }
+}
+
+class Eagle extends FlyingBirds{}
+class Duck extends FlyingBirds{}
+class Penguin extends Bird {}
+class Ostrich extends Bird {}
+```
+
+If we refer back to our `Bird` and `FlyingBird` example, if we have an instance of `FlyingBird`, we
+should be able to swap in an instance of `Eagle` without problem. This is the purpose of (strong)
 behavioral subtyping.
 
 If you do choose to use inheritance, it is advised to not have too many levels of inheritance, and
