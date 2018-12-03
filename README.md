@@ -13,7 +13,7 @@ that you can create `class`es and build methods that can perform
 actions on instance data, or specific to the `class`. What if you have
 `class`es that exhibit many of the same behaviors, such as `Cat`, `Dog`,
 and `Bird`, which all have a method for `speak`? In JavaScript, you can
-create "child" object `class`es that inherit features from their "parent"
+create "child" object `class`es that inherit methods from their "parent"
 `class`es. In this lesson, we'll discuss 2 ways of _extending_ functionality
 to other `class`es.
 
@@ -95,37 +95,28 @@ solution and progress to more complex solutions only as-needed.
 
 ### JavaScript Inheritance is Not Like Other Languages
 
-JavaScript can be a bit confusing since it is a dynamic language that uses syntactic
-sugar to leverage `class` implementations and inheritance similar to classic programming
-languages like C++, Java, or PHP. However, [JavaScript's inheritance model](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model)
-is quite powerful to build on top of like when using a class-based (or sometimes called classical)
-programming language model. As the popular phrase goes: "With power comes great responsibility."
+JavaScript is a dynamic language that uses syntactic sugar to leverage `class` implementations
+and inheritance similar to classic programming languages like C++, Java, or PHP. 
+[JavaScript's inheritance model](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model)
+is quite powerful! As the popular phrase goes: "With power comes great responsibility."
 It can be tempting to overuse these features.
 
-In Ruby, a parent `class` is an object, but it is neither an instance of itself nor of an object.
-The parent `class` object has significantly more methods than an instance of the parent. In Ruby,
-the parent is a _special_ type of object that includes `class` methods, including `#new`and
+In Ruby, a parent `class` has significantly more methods than an instance of the parent.
+It parent is a _special_ type of object that includes `class` methods, including `#new`and
 `#initialize` which are needed to create instances of itself. In Javascript, there are many ways
 to create objects.
 
-In _classical_ inheritance, it creates a _copy_ of the behavior from parent. However, in
-JavaScript when we create the object it does not copy the properties or behavior, it creates
-a _link_. This is called _prototypal_ inheritance. Copies of `class`es become separate entities,
-no longer directly associated with the parent.
-
-### Strong Behavioral Subtyping
-
-When creating child `class`es, we defer [SOLID](https://en.wikipedia.org/wiki/SOLID). SOLID is a
-set of design principles for OO programming. The L in solid is the subtyping thing. To adhere to
-good design, we try to maintain _[(strong) behavioral subtyping](https://en.wikipedia.org/wiki/Liskov_substitution_principle)_
-in [programming language theory](https://en.wikipedia.org/wiki/Programming_language_theory).
-A child class instance should be able to replace a parent and behave effectively the same way.
-Let's use `Vehicle` as a parent `class` with `Car` as a child `class` of `Vehicle` as an example.
+In _classical_ inheritance, it creates a _copy_ of the behavior from parent. Copies of `class`es
+become separate entities, no longer directly associated with the parent. In JavaScript when we
+create the object it does not copy the properties or behavior, it creates a _link_. This is called
+[_prototypal_ inheritance](https://blog.bitsrc.io/understanding-javascripts-prototypal-inheritance-354292253bcb).
 
 > Every object in JavaScript has an internal property called `prototype`. `prototype`s are what
 allows JavaScript objects to inherit features from one another. This is often referred to as a
 _prototype chain_. Methods and properties are not copied from one object to another in the
 prototype chain--they are accessed by _walking up_ the chain.
+
+Let's use `Vehicle` as a parent `class` with `Car` as a child `class` of `Vehicle` as an example:
 
 ```js
 class Vehicle { // Parent class
@@ -156,12 +147,68 @@ car1.run();   // "Hello! Engine of Camry starting... It has 4 Cylinders."
 car2.run();   // "Hello! Engine of Civic starting... It has 4 Cylinders."
 ```
 
-While on the surface it may look like it does the same thing, `class`es that are _linked_ and *not*
-_copied_ are fundamentally a code reuse mechanism--a way for objects to share code. `Car` looks to
-the parent as a reference, and does not have all `Vehicle`'s properties and behaviors without it.
-The way that the code is shared matters. When you attempt to access a property or method of an object,
-JavaScript will continue searching through the object/`class` and its `prototype` until the end of the
-`prototype` chain is reached. It can create performance and code maintenance issues when misapplied.
+While on the surface it may look like `Vehicle` and `Car` do the same thing, `class`es that are
+_linked_ and *not* _copied_ are fundamentally a code reuse mechanism--a way for objects to share
+code. `Car` looks to the parent as a reference, and does not have all `Vehicle`'s properties and
+behaviors without it. The way that the code is shared matters. When you attempt to access a
+property or method of an object, JavaScript will searches through the object/`class` and its
+`prototype` until the end of the `prototype` chain is reached. It can create performance and
+code maintenance issues when misapplied.
+
+### Strong Behavioral Subtyping
+
+When creating child `class`es, we defer to [SOLID](https://en.wikipedia.org/wiki/SOLID). SOLID is
+a set of design principles for OO programming that is intended to make software designs more
+understandable, flexible and maintainable. The 'L' in SOLID stands for is Liskov's substitution
+principle:
+
+> objects in a program should be replaceable with instances of their subtypes without altering
+the correctness of that program.
+
+To adhere to good design, we try to maintain _[(strong) behavioral subtyping](https://en.wikipedia.org/wiki/Liskov_substitution_principle)_
+in [programming language theory](https://en.wikipedia.org/wiki/Programming_language_theory).
+A child class instance should be able to replace a parent and behave effectively the same way.
+
+#### Breaks LSP Principle:
+
+```js
+class Reptile {
+  constructor(name) {
+    this.name = name;
+  }
+    crawl(){
+      return `${this.name} crawls away`
+    }
+}
+
+class Lizard extends Reptile {} // Lizard can crawl because it has legs.
+class Snake extends Reptile {} //  Snake cannot crawl because it does not have legs.
+```
+
+Snake class is a subtype of class Reptile, but it can't use the `crawl` method. That means this
+would be breaking the LSP principle.
+
+#### Follows LSP Principle:
+
+```js
+class Reptile {}
+
+class LeggedReptile extends Reptile {
+  constructor(name) {
+    this.name = name;
+  }
+    crawl(){
+      return `${this.name} crawls away`
+    }
+}
+
+class Lizard extends LeggedReptile {}
+class Snake extends Reptile {}
+```
+
+If we refer back to our `Reptile` and `LeggedReptile` example, if we have an instance of `LeggedReptile`,
+we should be able to swap in an instance of `Lizard` without problem. This is the purpose of (strong)
+behavioral subtyping.
 
 If you do choose to use inheritance, it is advised to not have too many levels of inheritance, and
 to keep careful track of where you define your methods and properties. Too much inheritance can
