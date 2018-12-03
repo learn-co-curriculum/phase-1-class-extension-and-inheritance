@@ -169,48 +169,45 @@ To adhere to good design, we try to maintain _[(strong) behavioral subtyping](ht
 in [programming language theory](https://en.wikipedia.org/wiki/Programming_language_theory).
 A child class instance should be able to replace a parent and behave effectively the same way.
 
-#### Bad Example:
+#### Breaks LSP Principle:
 
 ```js
-class Bird {
+class Reptile {
   constructor(name) {
     this.name = name;
   }
-    fly(){
-      return `${this.name} flew away`
+    crawl(){
+      return `${this.name} crawls away`
     }
 }
 
-class Eagle extends Bird {} // Eagle can fly because it is a bird.
-class Duck extends Bird {} //  Duck can fly because it is also bird.
-class Penguin extends Bird {} // Penguin is a bird, But it can't fly.
+class Lizard extends Reptile {} // Lizard can crawl because it has legs.
+class Snake extends Reptile {} //  Snake cannot crawl because it does not have legs.
 ```
 
-Penguin class is a subtype of class Bird, but it can't use the fly method. That means this
+Snake class is a subtype of class Reptile, but it can't use the `crawl` method. That means this
 would be breaking the LSP principle.
 
-#### Good Example:
+#### Follows LSP Principle:
 
 ```js
-class Bird {}
+class Reptile {}
 
-class FlyingBird extends Bird{
+class LeggedReptile extends Reptile {
   constructor(name) {
     this.name = name;
   }
-    fly(){
-      return `${this.name} flew away`
+    crawl(){
+      return `${this.name} crawls away`
     }
 }
 
-class Eagle extends FlyingBirds{}
-class Duck extends FlyingBirds{}
-class Penguin extends Bird {}
-class Ostrich extends Bird {}
+class Lizard extends LeggedReptile {}
+class Snake extends Reptile {}
 ```
 
-If we refer back to our `Bird` and `FlyingBird` example, if we have an instance of `FlyingBird`, we
-should be able to swap in an instance of `Eagle` without problem. This is the purpose of (strong)
+If we refer back to our `Reptile` and `LeggedReptile` example, if we have an instance of `LeggedReptile`,
+we should be able to swap in an instance of `Lizard` without problem. This is the purpose of (strong)
 behavioral subtyping.
 
 If you do choose to use inheritance, it is advised to not have too many levels of inheritance, and
