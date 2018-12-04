@@ -69,10 +69,6 @@ class Pet {
 class Dog extends Pet { ... }
 class Cat extends Pet { ... }
 class Bird extends Pet {
-  constructor(name) {
-    this.name = name;
-  }
-
   fly() {
     return `${this.name} flies away!`
   }
