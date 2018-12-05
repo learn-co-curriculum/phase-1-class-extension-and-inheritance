@@ -43,10 +43,12 @@ class Bird {
     }
   }
 ```
+In this code snippet, `Dog`, `Cat`, and `Bird` all accept `name` and
+have a method called `speak()`, thus repeating code. In JavaScript,
+you can create "child" object classes that inherit methods from their
+"parent" classes.
 
-In JavaScript, you can create "child" object classes that inherit methods
-from their "parent" classes. In this lesson, we'll discuss 1 way of
-_extending_ functionality to other classes.
+In this lesson, we'll discuss 1 way of _extending_ functionality to other classes.
 
 ## Use the `extends` Keyword
 
