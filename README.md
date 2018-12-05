@@ -7,7 +7,7 @@
 ## Introduction
 
 In JavaScript, as in other Object Oriented languages, we've learned
-that you can create classes and build methods that can perform
+that we can create classes and build methods that can perform
 actions on instance data, or specific to the class. What if you have
 classes that exhibit many of the same behaviors, such as `Cat`, `Dog`,
 and `Bird`, which all have a method for `speak`?
@@ -45,10 +45,12 @@ class Bird {
 ```
 In this code snippet, `Dog`, `Cat`, and `Bird` all accept `name` and
 have a method called `speak()`, thus repeating code. In JavaScript,
-you can create "child" object classes that inherit methods from their
-"parent" classes.
+we can create "child" object classes that inherit methods and properties
+from their "parent" classes, allowing us to reuse some class methods while
+building in additional functionality.
 
-In this lesson, we'll discuss 1 way of _extending_ functionality to other classes.
+In this lesson, we'll discuss 1 way of _extending_ functionality to
+other classes.
 
 ## Use the `extends` Keyword
 
@@ -93,11 +95,12 @@ additional method called `fly` that is unique to it, and not present on `Pet`.
 
 ## Conclusion
 
-In this lesson, we learned about more functionality in JavaScript that allows us to leverage
-Object Orientation concepts: class extensions and inheritance. With `extends` we can create 
-new classes that are capable utilizing of all the same methods as its parent. Leveraging
-inheritance and `extends` is vital in Object Oriented programming. It keep cade bases maintainable
-by sharing and reusing code in a beneficial manner.
+In this lesson, we learned about more functionality in JavaScript that allows
+us to leverage Object Orientation concepts: class extensions and inheritance.
+With `extends` we can create new classes that are capable utilizing of all the
+same methods as its parent. Leveraging inheritance and `extends` is vital in
+Object Oriented programming. It keep cade bases maintainable by sharing and
+reusing code in a beneficial manner.
 
 ## Resources
 
