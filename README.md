@@ -60,31 +60,38 @@ is a _child_ of another class.
 
 ```js
 class Pet {
-  constructor(name) {
+  constructor(name, sound) {
     this.name = name;
+    this.sound = sound;
   }
 
   speak() {
-    return `${this.name} makes a loud sound!`
+    return `${this.name} says ${this.sound}!`
   }
 }
 
-// Inherits from Pet
-class Dog extends Pet { ... }
-class Cat extends Pet { ... }
-class Bird extends Pet {
+class Dog extends Pet {
+  // inherits constructor from Pet
+}
+
+class Cat extends Pet {
+  // inherits constructor from Pet
+}
+
+class Bird extends Pet  {
+  // inherits constructor from Pet
   fly() {
     return `${this.name} flies away!`
   }
 }
 
-let dog = new Dog("Shadow");
-let cat = new Dog("Missy");
-let bird = new Dog("Tiki");
+let dog = new Dog("Shadow", "woof");
+let cat = new Cat("Missy", "meow");
+let bird = new Bird("Tiki", "squawk");
 
-dog.speak(); // Shadow makes a loud sound!
-cat.speak(); // Missy makes a loud sound!
-bird.speak(); // Tiki makes a loud sound!
+dog.speak(); // Shadow says woof!
+cat.speak(); // Missy says meow!
+bird.speak(); // Tiki says squawk!
 bird.fly(); // Tiki flies away!
 ```
 
