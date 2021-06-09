@@ -1,4 +1,4 @@
-# Class Extensions and Inheritance: `extends`
+# Class Extensions and Inheritance
 
 ## Learning Goals
 
